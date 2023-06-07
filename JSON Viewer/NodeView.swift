@@ -11,6 +11,7 @@ struct NodeView: View {
     var node: Node
     var level: Int
     @State var expanded = false
+    @Binding var column1Size: CGFloat
 
     var body: some View {
         if let children = node.children {
@@ -32,13 +33,13 @@ struct NodeView: View {
                     Text("\(node.key)")
                     Spacer()
                 }.padding(.leading, 35 * CGFloat(level))
-                    .frame(width: 300)
+                    .frame(width: column1Size)
                 Spacer()
             }
             if expanded {
                 Group {
                     ForEach(children) { childNode in
-                        NodeView(node: childNode, level: level + 1)
+                        NodeView(node: childNode, level: level + 1, column1Size: $column1Size)
                     }
                 }
             }
@@ -56,7 +57,7 @@ struct NodeView: View {
                     Text(":")
                     Spacer()
                 }.padding(.leading, 35 * CGFloat(level))
-                    .frame(width: 300)
+                    .frame(width: column1Size)
                 Text("\(node.value)")
                     .foregroundColor(node.type.color)
                     .bold(node.type.bold)
@@ -70,12 +71,12 @@ struct NodeView: View {
 struct NodeView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            NodeView(node: Node(key: "name", value: "John", type: .string, children: nil), level: 0)
+            NodeView(node: Node(key: "name", value: "John", type: .string, children: nil), level: 0, column1Size: .constant(300))
             NodeView(node: Node(key: "address", value: "", type: .object, children: [
                 Node(key: "street", value: "123 Main St", type: .string, children: nil),
                 Node(key: "city", value: "Springfield", type: .string, children: nil),
                 Node(key: "state", value: "IL", type: .string, children: nil)
-            ]), level: 0)
+            ]), level: 0, column1Size: .constant(300))
         }
         .previewLayout(.sizeThatFits)
     }
