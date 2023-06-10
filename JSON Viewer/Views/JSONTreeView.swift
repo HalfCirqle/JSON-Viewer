@@ -13,6 +13,8 @@ struct JSONTreeView: View {
     @GestureState var column1DragOffset: CGFloat = 0
     @GestureState var column2DragOffset: CGFloat = 0
     @State var forceOpenAll: Bool = false
+    
+    @Binding var viewMode: ViewMode
 
     var nodes: [Node]
 
@@ -84,7 +86,7 @@ struct JSONTreeView: View {
                             ), column2Size: Binding(
                                 get: { column2Size },
                                 set: { _ in }
-                            ), forceOpenAll: $forceOpenAll)
+                            ), forceOpenAll: $forceOpenAll, viewMode: $viewMode)
                         }
                     }.padding()
                 }
@@ -111,6 +113,6 @@ struct JSONTreeView_Previews: PreviewProvider {
             ])
         ]
 
-        JSONTreeView(nodes: exampleNodes)
+        JSONTreeView(viewMode: .constant(.spacious), nodes: exampleNodes)
     }
 }

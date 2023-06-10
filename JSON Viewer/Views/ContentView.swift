@@ -14,6 +14,8 @@ struct ContentView: View {
     
     @State private var viewMode: Int = 0
     
+    @State private var jsonViewMode: ViewMode = .spacious
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -37,8 +39,19 @@ struct ContentView: View {
                     }
                 } else {
                     if let root = rootNode {
-                        JSONTreeView(nodes: [root])
+                        JSONTreeView(viewMode: $jsonViewMode, nodes: [root])
                             .toolbar {
+                                ToolbarItem(placement: .principal) {
+                                    Picker("", selection: $jsonViewMode) {
+                                        Text(ViewMode.spacious.description)
+                                            .tag(ViewMode.spacious)
+                                        Text(ViewMode.compact.description)
+                                            .tag(ViewMode.compact)
+                                    }.pickerStyle(.segmented)
+                                        .onChange(of: viewMode) { _ in
+                                            parseJSON()
+                                        }
+                                }
                                 ToolbarItem(placement: .primaryAction) {
                                     Button {
                                         NotificationCenter.default.post(name: .closeAll, object: nil)

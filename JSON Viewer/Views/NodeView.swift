@@ -14,6 +14,11 @@ struct NodeView: View {
     @Binding var column1Size: CGFloat
     @Binding var column2Size: CGFloat
     @Binding var forceOpenAll: Bool
+    @Binding var viewMode: ViewMode
+    
+    var indentSpacing: CGFloat {
+        viewMode == .spacious ? 35 : 15
+    }
 
     var body: some View {
         Group {
@@ -35,7 +40,7 @@ struct NodeView: View {
                             .foregroundColor(.secondary)
                         Text("\(node.key)")
                         Spacer()
-                    }.padding(.leading, 35 * CGFloat(level))
+                    }.padding(.leading, indentSpacing * CGFloat(level))
                         .frame(width: column1Size)
                     Spacer()
                         .frame(width: column2Size)
@@ -45,12 +50,13 @@ struct NodeView: View {
                         .textFieldStyle(PlainTextFieldStyle())
                         .scrollContentBackground(.hidden)
                         .padding(.leading)
+                        .padding(viewMode == .spacious ? 10 : 0)
                     Spacer()
                 }
                 if expanded {
                     Group {
                         ForEach(children) { childNode in
-                            NodeView(node: childNode, level: level + 1, expanded: forceOpenAll ? true : false, column1Size: $column1Size, column2Size: $column2Size, forceOpenAll: $forceOpenAll)
+                            NodeView(node: childNode, level: level + 1, expanded: forceOpenAll ? true : false, column1Size: $column1Size, column2Size: $column2Size, forceOpenAll: $forceOpenAll, viewMode: $viewMode)
                         }
                     }
                 }
@@ -67,7 +73,7 @@ struct NodeView: View {
                             .opacity(0.75)
                         Text(":")
                         Spacer()
-                    }.padding(.leading, 35 * CGFloat(level))
+                    }.padding(.leading, indentSpacing * CGFloat(level))
                         .frame(width: column1Size)
                     HStack {
                         Text("\(node.value)")
@@ -84,6 +90,7 @@ struct NodeView: View {
                         .textFieldStyle(PlainTextFieldStyle())
                         .scrollContentBackground(.hidden)
                         .padding(.leading)
+                        .padding(viewMode == .spacious ? 10 : 0)
                 }
             }
         }
@@ -102,12 +109,12 @@ struct NodeView: View {
 struct NodeView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            NodeView(node: Node(key: "name", value: "John", type: .string, children: nil), level: 0, column1Size: .constant(300), column2Size: .constant(300), forceOpenAll: .constant(true))
+            NodeView(node: Node(key: "name", value: "John", type: .string, children: nil), level: 0, column1Size: .constant(300), column2Size: .constant(300), forceOpenAll: .constant(true), viewMode: .constant(.spacious))
             NodeView(node: Node(key: "address", value: "", type: .object, children: [
                 Node(key: "street", value: "123 Main St", type: .string, children: nil),
                 Node(key: "city", value: "Springfield", type: .string, children: nil),
                 Node(key: "state", value: "IL", type: .string, children: nil)
-            ]), level: 0, column1Size: .constant(300), column2Size: .constant(300), forceOpenAll: .constant(true))
+            ]), level: 0, column1Size: .constant(300), column2Size: .constant(300), forceOpenAll: .constant(true), viewMode: .constant(.spacious))
         }
         .previewLayout(.sizeThatFits)
     }
