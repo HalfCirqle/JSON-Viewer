@@ -86,6 +86,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9229D7AC2A34BCF900F2A5A9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9244CBE02A28E8CF00CBF087 /* ContentView.swift */,
+				9244CC092A28E8E600CBF087 /* JSONTreeView.swift */,
+				9244CC0B2A28E91E00CBF087 /* NodeView.swift */,
+				922BC4402A328FC500C86149 /* ResizingHandle.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9229D7AD2A34BD0A00F2A5A9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9244CC0F2A28F58600CBF087 /* JSONValue.swift */,
+				9244CC112A29077E00CBF087 /* JSONValueType.swift */,
+				9244CC0D2A28E92E00CBF087 /* Node.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9229D7AE2A34BD1600F2A5A9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				92ABF2282A34B31600187109 /* Notification+Name.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		9229D7AF2A34BD3000F2A5A9 /* Project Files */ = {
+			isa = PBXGroup;
+			children = (
+				9244CBDE2A28E8CF00CBF087 /* JSON_ViewerApp.swift */,
+				9244CBE22A28E8D000CBF087 /* Assets.xcassets */,
+			);
+			path = "Project Files";
+			sourceTree = "<group>";
+		};
 		9244CBD22A28E8CF00CBF087 = {
 			isa = PBXGroup;
 			children = (
@@ -109,18 +147,12 @@
 		9244CBDD2A28E8CF00CBF087 /* JSON Viewer */ = {
 			isa = PBXGroup;
 			children = (
-				9244CBDE2A28E8CF00CBF087 /* JSON_ViewerApp.swift */,
-				9244CBE02A28E8CF00CBF087 /* ContentView.swift */,
-				9244CC0F2A28F58600CBF087 /* JSONValue.swift */,
-				9244CC092A28E8E600CBF087 /* JSONTreeView.swift */,
-				922BC4402A328FC500C86149 /* ResizingHandle.swift */,
-				9244CC112A29077E00CBF087 /* JSONValueType.swift */,
-				9244CC0B2A28E91E00CBF087 /* NodeView.swift */,
-				9244CC0D2A28E92E00CBF087 /* Node.swift */,
-				9244CBE22A28E8D000CBF087 /* Assets.xcassets */,
-				9244CBE42A28E8D000CBF087 /* JSON_Viewer.entitlements */,
+				9229D7AC2A34BCF900F2A5A9 /* Views */,
+				9229D7AD2A34BD0A00F2A5A9 /* Models */,
+				9229D7AE2A34BD1600F2A5A9 /* Extensions */,
 				9244CBE52A28E8D000CBF087 /* Preview Content */,
-				92ABF2282A34B31600187109 /* Notification+Name.swift */,
+				9229D7AF2A34BD3000F2A5A9 /* Project Files */,
+				9244CBE42A28E8D000CBF087 /* JSON_Viewer.entitlements */,
 			);
 			path = "JSON Viewer";
 			sourceTree = "<group>";
