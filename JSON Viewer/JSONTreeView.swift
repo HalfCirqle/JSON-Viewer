@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct JSONTreeView: View {
-    @State var column1Percentage: CGFloat = 0.5
-    @GestureState var dragOffset: CGFloat = 0
+    @State var column1Percentage: CGFloat = 0.33
+    @State var column2Percentage: CGFloat = 0.33
+    @GestureState var column1DragOffset: CGFloat = 0
+    @GestureState var column2DragOffset: CGFloat = 0
     @State var forceOpenAll: Bool = false
 
     var nodes: [Node]
@@ -19,7 +21,9 @@ struct JSONTreeView: View {
             let totalWidth = geometry.size.width
             let minWidth: CGFloat = 200
             let maxWidth:CGFloat = totalWidth - minWidth
-            let column1Size = max(minWidth, min(maxWidth, totalWidth * column1Percentage + dragOffset))
+
+            let column1Size = max(minWidth, min(maxWidth, totalWidth * column1Percentage + column1DragOffset))
+            let column2Size = max(minWidth, min(maxWidth, totalWidth * column2Percentage + column2DragOffset))
 
             VStack {
                 HStack {
@@ -34,7 +38,7 @@ struct JSONTreeView: View {
                     ResizingHandle()
                         .gesture(
                             DragGesture(minimumDistance: 0.1, coordinateSpace: .global)
-                                .updating($dragOffset) { value, state, transaction in
+                                .updating($column1DragOffset) { value, state, transaction in
                                     state = value.translation.width
                                 }
                                 .onEnded { value in
@@ -47,7 +51,25 @@ struct JSONTreeView: View {
                         Text ("Value")
                         Spacer()
                     }
-//                        .frame(width: max(maxWidth, totalWidth - column1Size - dragOffset))
+                    .padding(10)
+                    .background(Color.primary.opacity(0.1).cornerRadius(5))
+                    .frame(width: column2Size)
+                    ResizingHandle()
+                        .gesture(
+                            DragGesture(minimumDistance: 0.1, coordinateSpace: .global)
+                                .updating($column2DragOffset) { value, state, transaction in
+                                    state = value.translation.width
+                                }
+                                .onEnded { value in
+                                    let totalDrag = value.translation.width
+                                    let newWidth = max(minWidth, min(maxWidth, totalWidth * column2Percentage + totalDrag))
+                                    column2Percentage = newWidth / totalWidth
+                                }
+                        )
+                    HStack {
+                        Text ("Comments")
+                        Spacer()
+                    }
                     .padding(10)
                     .background(Color.primary.opacity(0.1).cornerRadius(5))
                     Spacer()
@@ -58,6 +80,9 @@ struct JSONTreeView: View {
                         ForEach(nodes[0].children!) { node in
                             NodeView(node: node, level: 0, expanded: forceOpenAll, column1Size: Binding(
                                 get: { column1Size },
+                                set: { _ in }
+                            ), column2Size: Binding(
+                                get: { column2Size },
                                 set: { _ in }
                             ), forceOpenAll: $forceOpenAll)
                         }

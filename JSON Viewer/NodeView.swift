@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct NodeView: View {
-    var node: Node
+    @State var node: Node
     var level: Int
     @State var expanded = false
     @Binding var column1Size: CGFloat
-    
+    @Binding var column2Size: CGFloat
     @Binding var forceOpenAll: Bool
 
     var body: some View {
@@ -38,11 +38,19 @@ struct NodeView: View {
                     }.padding(.leading, 35 * CGFloat(level))
                         .frame(width: column1Size)
                     Spacer()
+                        .frame(width: column2Size)
+                    TextEditor(text: $node.comments) // Comments editor
+                        .fixedSize(horizontal: false, vertical: true)
+                        .scrollDisabled(true)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .scrollContentBackground(.hidden)
+                        .padding(.leading)
+                    Spacer()
                 }
                 if expanded {
                     Group {
                         ForEach(children) { childNode in
-                            NodeView(node: childNode, level: level + 1, expanded: forceOpenAll ? true : false, column1Size: $column1Size, forceOpenAll: $forceOpenAll)
+                            NodeView(node: childNode, level: level + 1, expanded: forceOpenAll ? true : false, column1Size: $column1Size, column2Size: $column2Size, forceOpenAll: $forceOpenAll)
                         }
                     }
                 }
@@ -61,14 +69,25 @@ struct NodeView: View {
                         Spacer()
                     }.padding(.leading, 35 * CGFloat(level))
                         .frame(width: column1Size)
-                    Text("\(node.value)")
-                        .foregroundColor(node.type.color)
-                        .bold(node.type.bold)
-                        .padding(.leading, 15)
+                    HStack {
+                        Text("\(node.value)")
+                            .foregroundColor(node.type.color)
+                            .bold(node.type.bold)
+                            .padding(.leading, 15)
+                        Spacer()
+                    }
+                        .frame(width: column2Size)
                     Spacer()
+                    TextEditor(text: $node.comments) // Comments editor
+                        .fixedSize(horizontal: false, vertical: true)
+                        .scrollDisabled(true)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .scrollContentBackground(.hidden)
+                        .padding(.leading)
                 }
             }
-        }.onReceive(NotificationCenter.default.publisher(for: .expandAll)) { _ in
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .expandAll)) { _ in
             withAnimation {
                 expanded = true
             }
@@ -83,12 +102,12 @@ struct NodeView: View {
 struct NodeView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            NodeView(node: Node(key: "name", value: "John", type: .string, children: nil), level: 0, column1Size: .constant(300), forceOpenAll: .constant(true))
+            NodeView(node: Node(key: "name", value: "John", type: .string, children: nil), level: 0, column1Size: .constant(300), column2Size: .constant(300), forceOpenAll: .constant(true))
             NodeView(node: Node(key: "address", value: "", type: .object, children: [
                 Node(key: "street", value: "123 Main St", type: .string, children: nil),
                 Node(key: "city", value: "Springfield", type: .string, children: nil),
                 Node(key: "state", value: "IL", type: .string, children: nil)
-            ]), level: 0, column1Size: .constant(300), forceOpenAll: .constant(true))
+            ]), level: 0, column1Size: .constant(300), column2Size: .constant(300), forceOpenAll: .constant(true))
         }
         .previewLayout(.sizeThatFits)
     }

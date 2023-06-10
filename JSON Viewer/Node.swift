@@ -13,4 +13,5 @@ struct Node: Identifiable {
     let value: String
     let type: JSONValueType
     var children: [Node]?
+    var comments: String = ""
 }
