@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		922BC4412A328FC500C86149 /* ResizingHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922BC4402A328FC500C86149 /* ResizingHandle.swift */; };
 		9244CBDF2A28E8CF00CBF087 /* JSON_ViewerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9244CBDE2A28E8CF00CBF087 /* JSON_ViewerApp.swift */; };
 		9244CBE12A28E8CF00CBF087 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9244CBE02A28E8CF00CBF087 /* ContentView.swift */; };
 		9244CBE32A28E8D000CBF087 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9244CBE22A28E8D000CBF087 /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		922BC4402A328FC500C86149 /* ResizingHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandle.swift; sourceTree = "<group>"; };
 		9244CBDB2A28E8CF00CBF087 /* JSON Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JSON Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9244CBDE2A28E8CF00CBF087 /* JSON_ViewerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON_ViewerApp.swift; sourceTree = "<group>"; };
 		9244CBE02A28E8CF00CBF087 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				9244CBE02A28E8CF00CBF087 /* ContentView.swift */,
 				9244CC0F2A28F58600CBF087 /* JSONValue.swift */,
 				9244CC092A28E8E600CBF087 /* JSONTreeView.swift */,
+				922BC4402A328FC500C86149 /* ResizingHandle.swift */,
 				9244CC112A29077E00CBF087 /* JSONValueType.swift */,
 				9244CC0B2A28E91E00CBF087 /* NodeView.swift */,
 				9244CC0D2A28E92E00CBF087 /* Node.swift */,
@@ -280,6 +283,7 @@
 				9244CC0A2A28E8E600CBF087 /* JSONTreeView.swift in Sources */,
 				9244CC102A28F58600CBF087 /* JSONValue.swift in Sources */,
 				9244CC0C2A28E91E00CBF087 /* NodeView.swift in Sources */,
+				922BC4412A328FC500C86149 /* ResizingHandle.swift in Sources */,
 				9244CBDF2A28E8CF00CBF087 /* JSON_ViewerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
