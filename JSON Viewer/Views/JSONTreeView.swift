@@ -13,6 +13,7 @@ struct JSONTreeView: View {
     @GestureState var column1DragOffset: CGFloat = 0
     @GestureState var column2DragOffset: CGFloat = 0
     @State var forceOpenAll: Bool = false
+    @State var showComments: Bool = false
     
     @Binding var viewMode: ViewMode
 
@@ -55,26 +56,37 @@ struct JSONTreeView: View {
                     }
                     .padding(10)
                     .background(Color.primary.opacity(0.1).cornerRadius(5))
-                    .frame(width: column2Size)
-                    ResizingHandle()
-                        .gesture(
-                            DragGesture(minimumDistance: 0.1, coordinateSpace: .global)
-                                .updating($column2DragOffset) { value, state, transaction in
-                                    state = value.translation.width
-                                }
-                                .onEnded { value in
-                                    let totalDrag = value.translation.width
-                                    let newWidth = max(minWidth, min(maxWidth, totalWidth * column2Percentage + totalDrag))
-                                    column2Percentage = newWidth / totalWidth
-                                }
-                        )
-                    HStack {
-                        Text ("Comments")
-                        Spacer()
+                    .frame(width: showComments ? column2Size : nil)
+                    if showComments {
+                        ResizingHandle()
+                            .gesture(
+                                DragGesture(minimumDistance: 0.1, coordinateSpace: .global)
+                                    .updating($column2DragOffset) { value, state, transaction in
+                                        state = value.translation.width
+                                    }
+                                    .onEnded { value in
+                                        let totalDrag = value.translation.width
+                                        let newWidth = max(minWidth, min(maxWidth, totalWidth * column2Percentage + totalDrag))
+                                        column2Percentage = newWidth / totalWidth
+                                    }
+                            )
                     }
-                    .padding(10)
-                    .background(Color.primary.opacity(0.1).cornerRadius(5))
-                    Spacer()
+                    Button {
+                        withAnimation {
+                            showComments.toggle()
+                        }
+                    } label: {
+                        HStack {
+                            if !showComments {
+                                Image(systemName: "plus.bubble")
+                            } else {
+                                Text ("Comments")
+                                Spacer()
+                            }
+                        }
+                        .padding(10)
+                        .background(Color.primary.opacity(0.1).cornerRadius(5))
+                    }.buttonStyle(.plain)
                 }
                 .padding(10)
                 ScrollView {
@@ -86,7 +98,7 @@ struct JSONTreeView: View {
                             ), column2Size: Binding(
                                 get: { column2Size },
                                 set: { _ in }
-                            ), forceOpenAll: $forceOpenAll, viewMode: $viewMode)
+                            ), forceOpenAll: $forceOpenAll, viewMode: $viewMode, showComments: $showComments)
                         }
                     }.padding()
                 }
