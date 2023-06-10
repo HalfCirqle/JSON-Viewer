@@ -8,16 +8,18 @@
 import SwiftUI
 
 struct JSONTreeView: View {
-    @State var column1Size: CGFloat = 300
-    @State var column2Size: CGFloat = 300
+    @State var column1Percentage: CGFloat = 0.5
     @GestureState var dragOffset: CGFloat = 0
 
     var nodes: [Node]
 
-    let minWidth: CGFloat = 100  // set a minimum width for the column
-
     var body: some View {
-        ScrollView(.horizontal) {
+        GeometryReader { geometry in
+            let totalWidth = geometry.size.width
+            let minWidth: CGFloat = 200
+            let maxWidth:CGFloat = totalWidth - minWidth
+            let column1Size = max(minWidth, min(maxWidth, totalWidth * column1Percentage + dragOffset))
+
             VStack {
                 HStack {
                     HStack {
@@ -27,7 +29,7 @@ struct JSONTreeView: View {
                     .padding(.leading, 50)
                     .padding(10)
                     .background(Color.primary.opacity(0.1).cornerRadius(5))
-                    .frame(width: max(minWidth, column1Size + dragOffset))
+                    .frame(width: column1Size)
                     ResizingHandle()
                         .gesture(
                             DragGesture(minimumDistance: 0.1, coordinateSpace: .global)
@@ -36,26 +38,25 @@ struct JSONTreeView: View {
                                 }
                                 .onEnded { value in
                                     let totalDrag = value.translation.width
-                                    let newWidth = max(column1Size + totalDrag, minWidth)
-                                    column1Size = newWidth
+                                    let newWidth = max(minWidth, min(maxWidth, totalWidth * column1Percentage + totalDrag))
+                                    column1Percentage = newWidth / totalWidth
                                 }
                         )
                     HStack {
                         Text ("Value")
                         Spacer()
                     }
-                    .frame(width: column2Size)
+//                        .frame(width: max(maxWidth, totalWidth - column1Size - dragOffset))
                     .padding(10)
                     .background(Color.primary.opacity(0.1).cornerRadius(5))
                     Spacer()
                 }
                 .padding(10)
-//                .background(Color.primary.opacity(0.1))
                 ScrollView {
                     LazyVStack(spacing: 5) {
                         ForEach(nodes[0].children!) { node in
                             NodeView(node: node, level: 0, column1Size: Binding(
-                                get: { self.column1Size + self.dragOffset },
+                                get: { column1Size },
                                 set: { _ in }
                             ))
                         }
