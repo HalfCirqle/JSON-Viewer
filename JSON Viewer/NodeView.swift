@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct NodeView: View {
-    var node: Node
+    @State var node: Node
     var level: Int
     @State var expanded = false
     @Binding var column1Size: CGFloat
     @Binding var column2Size: CGFloat
-
     @Binding var forceOpenAll: Bool
 
     var body: some View {
@@ -39,8 +38,13 @@ struct NodeView: View {
                     }.padding(.leading, 35 * CGFloat(level))
                         .frame(width: column1Size)
                     Spacer()
-                    Text(" ") // Placeholder for column2 in parent nodes
                         .frame(width: column2Size)
+                    TextEditor(text: $node.comments) // Comments editor
+                        .fixedSize(horizontal: false, vertical: true)
+                        .scrollDisabled(true)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .scrollContentBackground(.hidden)
+                        .padding(.leading)
                     Spacer()
                 }
                 if expanded {
@@ -74,10 +78,16 @@ struct NodeView: View {
                     }
                         .frame(width: column2Size)
                     Spacer()
-                    Text(" ") // Placeholder for comments in leaf nodes
+                    TextEditor(text: $node.comments) // Comments editor
+                        .fixedSize(horizontal: false, vertical: true)
+                        .scrollDisabled(true)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .scrollContentBackground(.hidden)
+                        .padding(.leading)
                 }
             }
-        }.onReceive(NotificationCenter.default.publisher(for: .expandAll)) { _ in
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .expandAll)) { _ in
             withAnimation {
                 expanded = true
             }
@@ -88,7 +98,6 @@ struct NodeView: View {
         }
     }
 }
-
 
 struct NodeView_Previews: PreviewProvider {
     static var previews: some View {
