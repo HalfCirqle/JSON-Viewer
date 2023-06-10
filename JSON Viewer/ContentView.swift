@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State private var jsonText: String = ""
     @State private var rootNode: Node?
     
@@ -17,24 +18,54 @@ struct ContentView: View {
         NavigationStack {
             VStack {
                 if viewMode == 0 {
-                    TextEditor(text: $jsonText)
-                        .border(Color.gray, width: 0.5)
-                        .padding()
+                    ScrollView {
+                        TextEditor(text: $jsonText)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding()
+                            .scrollDisabled(true)
+                            .textFieldStyle(PlainTextFieldStyle())
+                            .scrollContentBackground(.hidden)
+                            .background(.clear)
+                    }.toolbar {
+                        ToolbarItem(placement: .primaryAction) {
+                            Button {
+                                viewMode = 1
+                            } label: {
+                                Text("Visualize")
+                            }.disabled(jsonText.isEmpty)
+                        }
+                    }
                 } else {
                     if let root = rootNode {
                         JSONTreeView(nodes: [root])
+                            .toolbar {
+                                ToolbarItem(placement: .primaryAction) {
+                                    Button {
+                                        NotificationCenter.default.post(name: .closeAll, object: nil)
+                                    } label: {
+                                        Text("Close All")
+                                    }.disabled(jsonText.isEmpty)
+                                }
+                                ToolbarItem(placement: .primaryAction) {
+                                    Button {
+                                        NotificationCenter.default.post(name: .expandAll, object: nil)
+                                    } label: {
+                                        Text("Expand All")
+                                    }.disabled(jsonText.isEmpty)
+                                }
+                            }
                     }
                 }
             }
-            .background(Color.white)
+            .background(colorScheme == .light ? .white : Color(nsColor: NSColor.windowBackgroundColor))
             .navigationTitle("JSON Viewer")
             .navigationSubtitle("Untitled File")
             .toolbar {
                 ToolbarItem(placement: .navigation) {
                     Picker("", selection: $viewMode) {
-                        Text("Text")
+                        Label("Text", systemImage: "text.word.spacing")
                             .tag(0)
-                        Text("JSON Visualizer")
+                        Label("Visualize", systemImage: "text.line.first.and.arrowtriangle.forward")
                             .tag(1)
                     }.pickerStyle(.segmented)
                         .onChange(of: viewMode) { _ in
