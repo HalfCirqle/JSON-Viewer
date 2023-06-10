@@ -20,6 +20,7 @@
 		9244CC0E2A28E92E00CBF087 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9244CC0D2A28E92E00CBF087 /* Node.swift */; };
 		9244CC102A28F58600CBF087 /* JSONValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9244CC0F2A28F58600CBF087 /* JSONValue.swift */; };
 		9244CC122A29077E00CBF087 /* JSONValueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9244CC112A29077E00CBF087 /* JSONValueType.swift */; };
+		92ABF2292A34B31600187109 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92ABF2282A34B31600187109 /* Notification+Name.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		9244CC0D2A28E92E00CBF087 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		9244CC0F2A28F58600CBF087 /* JSONValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONValue.swift; sourceTree = "<group>"; };
 		9244CC112A29077E00CBF087 /* JSONValueType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONValueType.swift; sourceTree = "<group>"; };
+		92ABF2282A34B31600187109 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				9244CBE22A28E8D000CBF087 /* Assets.xcassets */,
 				9244CBE42A28E8D000CBF087 /* JSON_Viewer.entitlements */,
 				9244CBE52A28E8D000CBF087 /* Preview Content */,
+				92ABF2282A34B31600187109 /* Notification+Name.swift */,
 			);
 			path = "JSON Viewer";
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				9244CC0C2A28E91E00CBF087 /* NodeView.swift in Sources */,
 				922BC4412A328FC500C86149 /* ResizingHandle.swift in Sources */,
 				9244CBDF2A28E8CF00CBF087 /* JSON_ViewerApp.swift in Sources */,
+				92ABF2292A34B31600187109 /* Notification+Name.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

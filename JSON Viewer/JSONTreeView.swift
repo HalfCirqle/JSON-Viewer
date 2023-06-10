@@ -10,6 +10,7 @@ import SwiftUI
 struct JSONTreeView: View {
     @State var column1Percentage: CGFloat = 0.5
     @GestureState var dragOffset: CGFloat = 0
+    @State var forceOpenAll: Bool = false
 
     var nodes: [Node]
 
@@ -55,13 +56,21 @@ struct JSONTreeView: View {
                 ScrollView {
                     LazyVStack(spacing: 5) {
                         ForEach(nodes[0].children!) { node in
-                            NodeView(node: node, level: 0, column1Size: Binding(
+                            NodeView(node: node, level: 0, expanded: forceOpenAll, column1Size: Binding(
                                 get: { column1Size },
                                 set: { _ in }
-                            ))
+                            ), forceOpenAll: $forceOpenAll)
                         }
                     }.padding()
                 }
+            }
+        }.onReceive(NotificationCenter.default.publisher(for: .expandAll)) { _ in
+            withAnimation {
+                forceOpenAll = true
+            }
+        }.onReceive(NotificationCenter.default.publisher(for: .closeAll)) { _ in
+            withAnimation {
+                forceOpenAll = false
             }
         }
     }
