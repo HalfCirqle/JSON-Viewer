@@ -60,7 +60,23 @@ struct ContentView: View {
     }
     func parse(json: [String: JSONValue], keyPrefix: String = "") -> [Node] {
         var nodes: [Node] = []
-        for (key, jsonValue) in json {
+        
+        let sortedKeys = json.keys.sorted { key1, key2 in
+            let value1 = json[key1]!
+            let value2 = json[key2]!
+            
+            // Sort by type: regular values come first, then arrays, then objects
+            let order1 = order(for: value1)
+            let order2 = order(for: value2)
+            if order1 != order2 {
+                return order1 < order2
+            }
+            
+            // If types are equal, sort alphabetically by key
+            return key1 < key2
+        }
+        for key in sortedKeys {
+            let jsonValue = json[key]!
             let keyWithPrefix = keyPrefix == "" ? key : keyPrefix + "." + key
             let type: JSONValueType
             switch jsonValue {
@@ -102,6 +118,17 @@ struct ContentView: View {
             }
         }
         return nodes
+    }
+    // Helper function to determine sort order for JSON values
+    func order(for value: JSONValue) -> Int {
+        switch value {
+        case .string, .int, .double, .bool, .null:
+            return 0 // Regular values come first
+        case .array:
+            return 1 // Then arrays
+        case .object:
+            return 2 // Then objects
+        }
     }
 }
 
