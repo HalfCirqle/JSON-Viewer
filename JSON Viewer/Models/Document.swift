@@ -9,13 +9,13 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct Document: FileDocument {
-    var node: Node
+    var node: Node?
     var version: Int
     var createdAt: Date
     var modifiedAt: Date
     var comments: String
 
-    init(node: Node) {
+    init(node: Node? = nil) {
         self.node = node
         self.version = 1
         self.createdAt = Date()
@@ -24,7 +24,7 @@ struct Document: FileDocument {
     }
 
     // define readable content types for your document
-    static var readableContentTypes: [UTType] { [.json] }
+    static var readableContentTypes: [UTType] { [.jsonCommentedDocument] }
 
     // initialize your document with a file
     init(configuration: ReadConfiguration) throws {
@@ -64,5 +64,11 @@ extension Document: Codable {
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(modifiedAt, forKey: .modifiedAt)
         try container.encode(comments, forKey: .comments)
+    }
+}
+
+extension UTType {
+    static var jsonCommentedDocument: UTType {
+        UTType(exportedAs: "com.halfcirqle.json-commented")
     }
 }
