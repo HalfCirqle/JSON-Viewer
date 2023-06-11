@@ -11,32 +11,53 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @Binding var document: Document
-    
+    @Binding var viewMode: Int
     @State private var jsonText: String = ""
-    
-    @State private var viewMode: Int = 0
-    
     @State private var jsonViewMode: ViewMode = .spacious
+    @State private var showInvalidJSONAlert = false
     
     var body: some View {
         NavigationStack {
             VStack {
                 if viewMode == 0 {
-                    ScrollView {
+                    ZStack(alignment: .topLeading) {
                         TextEditor(text: $jsonText)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .padding()
-                            .scrollDisabled(true)
                             .textFieldStyle(PlainTextFieldStyle())
                             .scrollContentBackground(.hidden)
                             .background(.clear)
+                        if jsonText.isEmpty {
+                            HStack(alignment: .bottom) {
+                                Image(systemName: "arrow.up")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 25)
+                                Text("Dump your JSON in the text editor to get started")
+                                Spacer()
+                            }.padding(.top, 50)
+                                .padding(.leading)
+                                .foregroundColor(.secondary)
+                        }
                     }.toolbar {
                         ToolbarItem(placement: .primaryAction) {
                             Button {
-                                viewMode = 1
+                                parseJSON()
                             } label: {
                                 Text("Visualize")
                             }.disabled(jsonText.isEmpty)
+                        }
+                        if document.node != nil {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button {
+                                    parseJSON()
+                                } label: {
+                                    Text("Cancel")
+                                }
+                            }
+                        }
+                    }
+                    .alert("The JSON is not valid", isPresented: $showInvalidJSONAlert) {
+                        Button("Okay") {
+                            showInvalidJSONAlert.toggle()
                         }
                     }
                 } else {
@@ -50,9 +71,6 @@ struct ContentView: View {
                                         Text(ViewMode.compact.description)
                                             .tag(ViewMode.compact)
                                     }.pickerStyle(.segmented)
-                                        .onChange(of: viewMode) { _ in
-                                            parseJSON()
-                                        }
                                 }
                                 ToolbarItem(placement: .primaryAction) {
                                     Button {
@@ -73,33 +91,24 @@ struct ContentView: View {
                 }
             }
             .background(colorScheme == .light ? .white : Color(nsColor: NSColor.windowBackgroundColor))
-            .toolbar {
-                ToolbarItem(placement: .navigation) {
-                    Picker("", selection: $viewMode) {
-                        Label("Text", systemImage: "text.word.spacing")
-                            .tag(0)
-                        Label("Visualize", systemImage: "text.line.first.and.arrowtriangle.forward")
-                            .tag(1)
-                    }.pickerStyle(.segmented)
-                        .onChange(of: viewMode) { _ in
-                            parseJSON()
-                        }
-                }
-            }
         }
     }
     
     func parseJSON() {
         guard let data = jsonText.data(using: .utf8) else {
             print("Invalid JSON text")
+            showInvalidJSONAlert.toggle()
             return
         }
         
         do {
             let json = try JSONDecoder().decode([String: JSONValue].self, from: data)
             document.node = Node(key: "root", value: "", type: .object, children: parse(json: json))
+            
+            viewMode = 1
         } catch {
             print("Failed to parse JSON: \(error)")
+            showInvalidJSONAlert.toggle()
         }
     }
     func parse(json: [String: JSONValue], keyPrefix: String = "") -> [Node] {
@@ -179,6 +188,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(document: .constant(Document()))
+        ContentView(document: .constant(Document()), viewMode: .constant(1))
     }
 }
