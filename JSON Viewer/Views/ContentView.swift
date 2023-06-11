@@ -48,7 +48,7 @@ struct ContentView: View {
                         if document.node != nil {
                             ToolbarItem(placement: .cancellationAction) {
                                 Button {
-                                    parseJSON()
+                                    viewMode = 1
                                 } label: {
                                     Text("Cancel")
                                 }
@@ -91,6 +91,11 @@ struct ContentView: View {
                 }
             }
             .background(colorScheme == .light ? .white : Color(nsColor: NSColor.windowBackgroundColor))
+            .onAppear {
+                if document.node != nil {
+                    viewMode = 1
+                }
+            }
         }
     }
     
