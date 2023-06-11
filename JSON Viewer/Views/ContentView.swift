@@ -9,8 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
+    
+    @Binding var document: Document
+    
     @State private var jsonText: String = ""
-    @State private var rootNode: Node?
     
     @State private var viewMode: Int = 0
     
@@ -38,7 +40,7 @@ struct ContentView: View {
                         }
                     }
                 } else {
-                    if let root = rootNode {
+                    if let root = document.node {
                         JSONTreeView(viewMode: $jsonViewMode, nodes: [root])
                             .toolbar {
                                 ToolbarItem(placement: .principal) {
@@ -71,8 +73,6 @@ struct ContentView: View {
                 }
             }
             .background(colorScheme == .light ? .white : Color(nsColor: NSColor.windowBackgroundColor))
-            .navigationTitle("JSON Viewer")
-            .navigationSubtitle("Untitled File")
             .toolbar {
                 ToolbarItem(placement: .navigation) {
                     Picker("", selection: $viewMode) {
@@ -97,7 +97,7 @@ struct ContentView: View {
         
         do {
             let json = try JSONDecoder().decode([String: JSONValue].self, from: data)
-            rootNode = Node(key: "root", value: "", type: .object, children: parse(json: json))
+            document.node = Node(key: "root", value: "", type: .object, children: parse(json: json))
         } catch {
             print("Failed to parse JSON: \(error)")
         }
@@ -179,6 +179,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(document: .constant(Document()))
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92109C182A3515D600D7A342 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92109C172A3515D600D7A342 /* Document.swift */; };
 		9229D7B12A34BDFB00F2A5A9 /* ViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9229D7B02A34BDFB00F2A5A9 /* ViewMode.swift */; };
 		922BC4412A328FC500C86149 /* ResizingHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922BC4402A328FC500C86149 /* ResizingHandle.swift */; };
 		9244CBDF2A28E8CF00CBF087 /* JSON_ViewerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9244CBDE2A28E8CF00CBF087 /* JSON_ViewerApp.swift */; };
@@ -42,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		92109C172A3515D600D7A342 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		92109C192A35181300D7A342 /* JSON-Viewer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "JSON-Viewer-Info.plist"; sourceTree = SOURCE_ROOT; };
 		9229D7B02A34BDFB00F2A5A9 /* ViewMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMode.swift; sourceTree = "<group>"; };
 		922BC4402A328FC500C86149 /* ResizingHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandle.swift; sourceTree = "<group>"; };
 		9244CBDB2A28E8CF00CBF087 /* JSON Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JSON Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,6 +109,7 @@
 				9244CC112A29077E00CBF087 /* JSONValueType.swift */,
 				9244CC0D2A28E92E00CBF087 /* Node.swift */,
 				9229D7B02A34BDFB00F2A5A9 /* ViewMode.swift */,
+				92109C172A3515D600D7A342 /* Document.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -150,6 +154,7 @@
 		9244CBDD2A28E8CF00CBF087 /* JSON Viewer */ = {
 			isa = PBXGroup;
 			children = (
+				92109C192A35181300D7A342 /* JSON-Viewer-Info.plist */,
 				9229D7AC2A34BCF900F2A5A9 /* Views */,
 				9229D7AD2A34BD0A00F2A5A9 /* Models */,
 				9229D7AE2A34BD1600F2A5A9 /* Extensions */,
@@ -319,6 +324,7 @@
 				9244CC0E2A28E92E00CBF087 /* Node.swift in Sources */,
 				9244CC122A29077E00CBF087 /* JSONValueType.swift in Sources */,
 				9244CC0A2A28E8E600CBF087 /* JSONTreeView.swift in Sources */,
+				92109C182A3515D600D7A342 /* Document.swift in Sources */,
 				9244CC102A28F58600CBF087 /* JSONValue.swift in Sources */,
 				9244CC0C2A28E91E00CBF087 /* NodeView.swift in Sources */,
 				922BC4412A328FC500C86149 /* ResizingHandle.swift in Sources */,
@@ -483,6 +489,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "JSON-Viewer-Info.plist";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -521,6 +528,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "JSON-Viewer-Info.plist";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

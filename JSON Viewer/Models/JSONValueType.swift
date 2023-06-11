@@ -8,13 +8,56 @@
 import SwiftUI
 import Foundation
 
-enum JSONValueType {
+enum JSONValueType: Codable {
     case string
     case number
     case bool
     case object
     case array
     case null
+    
+    // Since this is an enum, we need to provide custom encoding/decoding
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let typeInt = try container.decode(Int.self)
+        switch typeInt {
+        case 0:
+            self = .string
+        case 1:
+            self = .number
+        case 2:
+            self = .bool
+        case 3:
+            self = .object
+        case 4:
+            self = .array
+        case 5:
+            self = .null
+        default:
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid JSONValueType")
+        }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        let typeInt: Int
+        switch self {
+        case .string:
+            typeInt = 0
+        case .number:
+            typeInt = 1
+        case .bool:
+            typeInt = 2
+        case .object:
+            typeInt = 3
+        case .array:
+            typeInt = 4
+        case .null:
+            typeInt = 5
+        }
+        try container.encode(typeInt)
+    }
 
     var iconName: String {
         switch self {
