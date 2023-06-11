@@ -11,7 +11,7 @@ import SwiftUI
 struct JSON_ViewerApp: App {
     var body: some Scene {
         DocumentGroup(newDocument: Document()) { file in
-            ContentView()
+            ContentView(document: file.$document)
         }
     }
 }
