@@ -77,14 +77,14 @@ struct ContentView: View {
                                         NotificationCenter.default.post(name: .closeAll, object: nil)
                                     } label: {
                                         Text("Close All")
-                                    }.disabled(jsonText.isEmpty)
+                                    }.disabled(document.node == nil)
                                 }
                                 ToolbarItem(placement: .primaryAction) {
                                     Button {
                                         NotificationCenter.default.post(name: .expandAll, object: nil)
                                     } label: {
                                         Text("Expand All")
-                                    }.disabled(jsonText.isEmpty)
+                                    }.disabled(document.node == nil)
                                 }
                             }
                     }
